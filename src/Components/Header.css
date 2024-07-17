@@ -1,0 +1,31 @@
+/* 
+a {
+    position: relative;
+    padding: 4px;
+
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: rgb(255, 192, 18);
+    transform: scale(0);
+    transform-origin: 50% 50%;
+    transition: transform 0.3s ease;
+}
+
+a:hover::after {
+    transform: scale(1);
+
+} */
+.active::after {
+    transform: scale(1);
+}
+/* a:active {
+    transform: scale(0.95);
+    transition: .1s;
+} */
