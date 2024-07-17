@@ -15,7 +15,7 @@ const useAxiosSecure = () => {
         // Add a request interceptor
         const requestInterceptor = axiosSecure.interceptors.request.use(
             (config) => {
-                const token = localStorage.getItem('access-token');
+                const token = localStorage.getItem('token');
                 if (token) {
                     console.log('Attaching token to request:', token); // Debug log
                     config.headers.Authorization = `Bearer ${token}`;

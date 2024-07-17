@@ -8,17 +8,22 @@ const Login = () => {
 
     const [mobileOrEmail, setMobileOrEmail] = useState('');
     const [pin, setPin] = useState('');
-    const { login } = useContext(AuthContext);
+    const { login, auth } = useContext(AuthContext);
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await login(mobileOrEmail, pin);
-            navigate('/');
         } catch (error) {
             console.error('Login failed', error);
         }
     };
+    useEffect(() => {
+        if (auth) {
+            navigate('/');
+        }
+        console.log(auth);
+    },[auth])
     useEffect(() => {
         const mobile = localStorage.getItem('user');
         if (mobile) {

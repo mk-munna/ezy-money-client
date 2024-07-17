@@ -37,12 +37,13 @@ const AuthProvider = ({ children }) => {
         try {
             console.log(mobile, pin);
             const { data } = await axiosPublic.post('/login', { mobile, pin });
-            console.log(data.message);
+            console.log(data.number);
             if (data.message) {
                 toast(data.message)
             }
             setAuth(data.token);
             localStorage.setItem('token', data.token);
+            localStorage.setItem('user', data.number);
         } catch (err) {
             console.error(err);
         }

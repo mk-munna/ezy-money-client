@@ -89,6 +89,7 @@ const SignUp = () => {
                     <br />
                     {error && <p className="text-red-500 mt-2">{error}</p>}
                     <button className='mt-6 bg-[#A14AEC] text-white border outline-none rounded-lg py-2 px-4' type="submit">Register</button>
+                    <p className='mt-6'><Link className=' font-semibold' to={'/login'}>Already have an account? <span className=' underline text-purple-600'>Login</span></Link></p>
                 </form>
             </div>
         </div>
