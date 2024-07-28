@@ -13,6 +13,8 @@ import AuthProvider from './Provider/AuthProvider.jsx'
 import SignUp from './Pages/SIgnUp/SignUp.jsx'
 import SignUpAgent from './Pages/SIgnUp/SignUpAgent.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import SendMoney from './Pages/SendMoney/SendMoney.jsx';
+import MobileRecharge from './Pages/MobileRecharge/MobileRecharge.jsx';
 
 const queryClient = new QueryClient();
 
@@ -30,20 +32,30 @@ const router = createBrowserRouter([
           </PrivateRoute>
         )
       },
-      {
-        path: '/login',
-        element: <Login />
-      },
-      {
-        path: '/register',
-        element: <SignUp />
-      },
+      
       {
         path: '/agent-register',
         element: <SignUpAgent />
       },
+      {
+        path: '/send-money',
+        element: <SendMoney/>
+      },
+      {
+        path: '/mobile-recharge',
+        element: <MobileRecharge />
+      },
     ]
-  }
+  },
+  {
+    path: '/register',
+    element: <SignUp />
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+
 ])
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -7,7 +7,7 @@ import Footer from '../Components/Footer';
 const Root = () => {
     return (
         <div>
-            <div className='lg:px-20 '>
+            <div className='lg:max-w-6xl mx-auto '>
                 <Header></Header>
                 <Outlet></Outlet>
             </div>

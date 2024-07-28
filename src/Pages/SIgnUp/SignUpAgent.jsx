@@ -39,12 +39,13 @@ const SignUpAgent = () => {
     };
 
     return (
-        <div className='flex gap-20 mt-16'>
-            <div className='w-full flex justify-center'>
-                <img src={icon} alt="" className='w-[500px]' />
+        <div className='flex lg:gap-20 lg:px-0 px-8 md:px-20 mt-16'>
+            <div className='w-full hidden lg:flex justify-center'>
+                <img src={icon} alt="" className='' />
+
             </div>
             <div className='w-full lg:pt-0'>
-                <div className='flex gap-[150px]'>
+                <div className='flex gap-20 md:gap-[150px]'>
                     <img src={logo} className='' alt="" />
                     <Link className='underline mt-10' to={'/register'}>Register as User</Link>
                 </div>
@@ -86,6 +87,7 @@ const SignUpAgent = () => {
                     <br />
                     {error && <p className="text-red-500 mt-2">{error}</p>}
                     <button className='mt-6 bg-[#A14AEC] text-white border outline-none rounded-lg py-2 px-4' type="submit">Register</button>
+                    <p className='mt-6'><Link className=' font-semibold' to={'/login'}>Already have an account? <span className=' underline text-purple-600'>Login</span></Link></p>
                 </form>
             </div>
         </div>

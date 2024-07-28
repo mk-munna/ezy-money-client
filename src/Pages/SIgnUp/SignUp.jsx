@@ -41,19 +41,19 @@ const SignUp = () => {
     };
 
     return (
-        <div className='flex gap-20 mt-16'>
-            <div className='w-full flex justify-center'>
-                <img src={icon} alt="" className='w-[500px]' />
+        <div className='flex lg:gap-20 lg:px-0 px-8 md:px-20 mt-16'>
+            <div className='w-full hidden lg:flex justify-center'>
+                <img src={icon} alt="" className='' />
 
             </div>
             <div className='w-full lg:pt-0'>
-                <div className='flex gap-[150px]'>
+                <div className='flex gap-20 md:gap-[150px]'>
                     <img src={logo} className='' alt="" />
                     <Link className='underline mt-10' to={'/agent-register'}>Register as Agent</Link>
                 </div>
 
                 <h1 className='text-4xl text-[#A14AEC] mt-2 font-semibold'>Register</h1>
-                <p className='mt-2 w-[380px]'>Register EzyMoney for Secure, seamless and fast transactions.</p>
+                <p className='mt-2 md:w-[380px]'>Register EzyMoney for Secure, seamless and fast transactions.</p>
                 <form onSubmit={handleSubmit}>
                     <input
                         className='mt-6 border outline-none border-[#A14AEC] w-full lg:w-[350px] focus:border-l-4 duration-50 rounded-lg py-2 px-4'
