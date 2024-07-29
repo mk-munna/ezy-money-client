@@ -138,7 +138,7 @@ const SendMoney = () => {
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-8 rounded-lg shadow-lg flex items-center flex-col">
                         <p className='bg-teal-100 rounded-full p-2'><IoCheckmarkDoneOutline className='text-teal-500 text-3xl' /></p>
-                        <h2 className="text-2xl font-semibold mb-4 mt-2">Cash-out successful!</h2>
+                        <h2 className="text-2xl font-semibold mb-4 mt-2">Send money successful!</h2>
                         <p className="mb-4"><span className='bg-teal-100 text-teal-500 px-2 rounded-lg text-lg'>{(amount * 1.015).toFixed(2)}</span> TK has been sent to <span className='text-teal-500'>{to}</span>!</p>
                         <Link
                             to={'/'}

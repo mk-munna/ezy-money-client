@@ -9,17 +9,22 @@ const Login = () => {
     const [mobileOrEmail, setMobileOrEmail] = useState('');
     const [pin, setPin] = useState('');
     const { login, auth } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            setLoading(true)
             await login(mobileOrEmail, pin);
+            setLoading(false)
         } catch (error) {
             console.error('Login failed', error);
         }
+        setLoading(false)
     };
     useEffect(() => {
         if (auth) {
+            setLoading(false)
             navigate('/');
         }
         console.log(auth);
@@ -62,6 +67,15 @@ const Login = () => {
                     <button className='mt-6 bg-[#A14AEC]  text-white border outline-none   rounded-lg py-2 px-4' type="submit">Login</button>
 
                 </form>
+                {
+                    loading && (
+                        <div className="fixed -translate-x-1/2 top-[40%] left-1/2">
+                            <div className="">
+                                <img className='w-[100px]' src={"https://www.purplerosetheatre.org/wp-content/themes/dt-the7-child-2020/images/loader.gif"} alt="" />
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

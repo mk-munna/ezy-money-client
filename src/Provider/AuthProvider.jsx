@@ -23,11 +23,11 @@ const AuthProvider = ({ children }) => {
         try {
             const { data } = await axiosPublic.post('/sign-up', { name, mobile, email, pin, role });
             console.log(data);
+            toast(data.message)
             if (data.result.insertedId) {
                 setAuth(data.token);
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', mobile);
-                toast.success(data.message)
             } 
         } catch (err) {
             console.error(err);
@@ -38,9 +38,6 @@ const AuthProvider = ({ children }) => {
             console.log(mobile, pin);
             const { data } = await axiosPublic.post('/login', { mobile, pin });
             console.log(data.number);
-            if (data.message) {
-                toast(data.message)
-            }
             setAuth(data.token);
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', data.number);

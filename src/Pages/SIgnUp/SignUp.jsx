@@ -10,6 +10,7 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [pin, setPin] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const { signUp, auth } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -30,14 +31,17 @@ const SignUp = () => {
         setError('');
         try {
             const role = 'user';
+            setLoading(true)
             await signUp(name, mobile, email, pin, role);
         } catch (error) {
             console.error('Login failed', error);
         }
+        setLoading(false)
     };
 
     useEffect(() => {
         if (auth) {
+            setLoading(false)
             navigate('/');
         }
     }, [auth, navigate]);
@@ -99,6 +103,15 @@ const SignUp = () => {
                     <button className='mt-6 bg-[#A14AEC] text-white border outline-none rounded-lg py-2 px-4' type="submit">Register</button>
                     <p className='mt-6'><Link className=' font-semibold' to={'/login'}>Already have an account? <span className=' underline text-purple-600'>Login</span></Link></p>
                 </form>
+                {
+                    loading && (
+                        <div className="fixed -translate-x-1/2 top-[40%] left-1/2">
+                            <div className="">
+                                <img className='w-[100px]' src={"https://www.purplerosetheatre.org/wp-content/themes/dt-the7-child-2020/images/loader.gif"} alt="" />
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );
