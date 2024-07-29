@@ -15,6 +15,13 @@ const SignUpAgent = () => {
     console.log(auth);
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const bangladeshiPhoneNumberPattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
+
+        if (!bangladeshiPhoneNumberPattern.test(mobile)) {
+            setError('Invalid Bangladeshi phone number');
+            return;
+        }
+
         if (pin.length !== 5) {
             setError('PIN must be exactly 5 digits long');
             return;
@@ -63,7 +70,7 @@ const SignUpAgent = () => {
                     <br />
                     <input
                         className='mt-6 border outline-none border-[#A14AEC] w-full lg:w-[350px] focus:border-l-4 duration-50 rounded-lg py-2 px-4'
-                        type="text"
+                        type="number"
                         value={mobile}
                         onChange={(e) => setMobile(e.target.value)}
                         placeholder="Your Mobile"

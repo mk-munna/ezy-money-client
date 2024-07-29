@@ -35,10 +35,6 @@ const router = createBrowserRouter([
       },
       
       {
-        path: '/agent-register',
-        element: <SignUpAgent />
-      },
-      {
         path: '/send-money',
         element: <SendMoney/>
       },
@@ -61,6 +57,10 @@ const router = createBrowserRouter([
     element: <Login />
   },
 
+  {
+    path: '/agent-register',
+    element: <SignUpAgent />
+  },
 ])
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

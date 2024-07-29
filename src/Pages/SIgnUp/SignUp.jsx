@@ -12,27 +12,36 @@ const SignUp = () => {
     const [error, setError] = useState('');
     const { signUp, auth } = useContext(AuthContext);
     const navigate = useNavigate();
-    console.log(auth);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const bangladeshiPhoneNumberPattern = /^(?:\+88|88)?(01[3-9]\d{8})$/;
+
+        if (!bangladeshiPhoneNumberPattern.test(mobile)) {
+            setError('Invalid Bangladeshi phone number');
+            return;
+        }
+
         if (pin.length !== 5) {
             setError('PIN must be exactly 5 digits long');
             return;
         }
+
         setError('');
         try {
-            const role = 'agent';
+            const role = 'user';
             await signUp(name, mobile, email, pin, role);
-
         } catch (error) {
             console.error('Login failed', error);
         }
     };
+
     useEffect(() => {
         if (auth) {
             navigate('/');
         }
-    }, [auth])
+    }, [auth, navigate]);
+
     const handlePinChange = (e) => {
         const value = e.target.value;
         if (value.length <= 5) {
@@ -44,7 +53,6 @@ const SignUp = () => {
         <div className='flex lg:gap-20 lg:px-0 px-8 md:px-20 mt-16'>
             <div className='w-full hidden lg:flex justify-center'>
                 <img src={icon} alt="" className='' />
-
             </div>
             <div className='w-full lg:pt-0'>
                 <div className='flex gap-20 md:gap-[150px]'>
@@ -65,7 +73,7 @@ const SignUp = () => {
                     <br />
                     <input
                         className='mt-6 border outline-none border-[#A14AEC] w-full lg:w-[350px] focus:border-l-4 duration-50 rounded-lg py-2 px-4'
-                        type="text"
+                        type="number"
                         value={mobile}
                         onChange={(e) => setMobile(e.target.value)}
                         placeholder="Your Mobile"
