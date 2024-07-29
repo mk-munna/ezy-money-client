@@ -6,39 +6,37 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { IoCheckmarkDoneOutline } from 'react-icons/io5';
 
-const SendMoney = () => {
-
-    const from = localStorage.getItem('user')
+const CashOut = () => {
+    const from = localStorage.getItem('user');
     const [to, setTo] = useState('');
     const [amount, setAmount] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [pin, setPin] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
-
 
     const fetchUserData = async ({ queryKey }) => {
         const [_key, from] = queryKey;
         const response = await axiosSecure(`/balance/${from}`);
         return response.data;
     };
+
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['balance-load', from],
         queryFn: fetchUserData,
         enabled: !!from,
     });
-    console.log(data?.balance);
-    console.log(data?.balance);
+
     const handleAmountChange = (e) => {
-        const value = e.target.value;
-        const checkValue = parseFloat(value) + 5;
-        console.log(checkValue);
+        const value = parseFloat(e.target.value);
+        const totalDeduction = value * 1.015;
         setAmount(value);
+
         if (value < 50) {
             setError('Amount should be above 50 tk');
-        } else if (checkValue > data?.balance) {
+        } else if (totalDeduction > data?.balance) {
             setError('Insufficient balance');
         } else {
             setError('');
@@ -47,11 +45,10 @@ const SendMoney = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (amount < 50) {
-            setError('Amount should be above 50 tk');
-            return;
-        }
-        if (amount > data?.balance) {
+
+        const totalDeduction = amount * 1.015;
+
+        if (totalDeduction > data?.balance) {
             setError('Insufficient balance');
             return;
         }
@@ -62,22 +59,18 @@ const SendMoney = () => {
 
         try {
             setLoading(true);
-            const response = await axiosSecure.post('/send-money', { amount, to, pin, from });
-            console.log(response.data);
-            if(response.data.message) setLoading(false)
-            if (response.data.message === '✅Transaction successful') {
+            const response = await axiosSecure.post('/cash-out', { amount, to, pin, from });
+            if (response.data.message) setLoading(false)
+            if (response.data.message === '✅ Cash-out successful') {
                 setIsModalOpen(true);
             } else toast(response.data.message)
             queryClient.invalidateQueries(['user-load']);
             queryClient.invalidateQueries(['balance-load']);
         } catch (error) {
             console.error(error);
-            setError('Failed to send money');
+            setError('Failed to Cash Out');
         }
     };
-
-    let total = parseFloat(amount);
-
 
     return (
         <div className='pb-[100px]'>
@@ -85,15 +78,15 @@ const SendMoney = () => {
                 <Link to={'/'} className='absolute left-8'>
                     <FaArrowLeft className='text-2xl text-purple-500' />
                 </Link>
-                <p className='text-purple-500 font-semibold text-2xl md:text-4xl'>Send money</p>
+                <p className='text-purple-500 font-semibold text-2xl md:text-4xl'>Cash Out</p>
             </div>
             <form onSubmit={handleSubmit} className='p-8'>
                 <div className='mb-4'>
-                    <label className='block text-purple-500 font-semibold mb-2' htmlFor='to'>To (Mobile Number)</label>
+                    <label className='block text-purple-500 font-semibold mb-2' htmlFor='to'>Enter Agent Mobile Number</label>
                     <input
                         type='number'
                         id='to'
-                        className='w-full px-8  border-none bg-purple-100 py-5 outline-none bg rounded-lg focus:outline-none focus:border-purple-500'
+                        className='w-full px-8 border-none bg-purple-100 py-5 outline-none rounded-lg focus:outline-none focus:border-purple-500'
                         value={to}
                         onChange={(e) => setTo(e.target.value)}
                         required
@@ -104,33 +97,29 @@ const SendMoney = () => {
                     <input
                         type='number'
                         id='amount'
-                        className='w-full px-8  border-none bg-purple-100 py-5 outline-none bg rounded-lg focus:outline-none focus:border-purple-500'
+                        className='w-full px-8 border-none bg-purple-100 py-5 outline-none rounded-lg focus:outline-none focus:border-purple-500'
                         value={amount}
                         onChange={handleAmountChange}
                         required
                     />
-                    {
-                        error ? <p className='text-red-500 mb-4'>{error}</p> : amount ? <p className='text-purple-500 mt-2'>Total Amount Deducted: <span className='bg-teal-100 text-teal-500 px-2 rounded-lg text-lg'>{total >= 100 ? total + 5 : total}</span> Tk {amount >= 100 ? <span className='text-teal-500'> (5 TK fee for transition upto 100)</span> : <span className='text-black'>(No charge Applied)</span>} </p> : ""
-                        
-                    }
+                    {error ? <p className='text-red-500 mb-4'>{error}</p> : amount ? <p className='text-purple-500 mt-2'>Total Amount Deducted: <span className='bg-teal-100 text-teal-500 px-2 rounded-lg text-lg'>{(amount * 1.015).toFixed(2)}</span> Tk <span className='text-teal-500'>(1.5% fee applied)</span></p> : ""}
                 </div>
                 <div className='mb-4 w-[300px] mx-auto'>
                     <label className='block text-purple-500 text-center text-3xl font-semibold mb-2' htmlFor='pin'>PIN</label>
                     <input
                         type='password'
                         id='pin'
-                        className='w-full px-8  border-none bg-purple-100 py-5 outline-none bg rounded-lg focus:outline-none focus:border-purple-500'
+                        className='w-full px-8 border-none bg-purple-100 py-5 outline-none rounded-lg focus:outline-none focus:border-purple-500'
                         value={pin}
                         onChange={(e) => setPin(e.target.value)}
                         required
                     />
                 </div>
-
                 <button
                     type='submit'
                     className='w-full mt-6 py-4 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-300'
                 >
-                    Send Money
+                    Cash Out
                 </button>
             </form>
 
@@ -162,4 +151,4 @@ const SendMoney = () => {
     );
 };
 
-export default SendMoney;
+export default CashOut;

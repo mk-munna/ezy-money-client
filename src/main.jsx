@@ -15,6 +15,7 @@ import SignUpAgent from './Pages/SIgnUp/SignUpAgent.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import SendMoney from './Pages/SendMoney/SendMoney.jsx';
 import MobileRecharge from './Pages/MobileRecharge/MobileRecharge.jsx';
+import CashOut from './Pages/CashOut/CashOut.jsx';
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: '/mobile-recharge',
         element: <MobileRecharge />
+      },
+      {
+        path: '/cash-out',
+        element: <CashOut />
       },
     ]
   },
